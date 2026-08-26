@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fanwaave-web-server
+  namespace: fanwaave
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fanwaave-web-server
+  template:
+    metadata:
+      labels:
+        app: fanwaave-web-server
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/fanwaave/fanwaave-web-server.rs:main
+          ports:
+            - containerPort: 8081
+

@@ -1,0 +1,4 @@
+name = "fanwaave-infra"
+kind = "infra"
+version = "0.1.0"
+
