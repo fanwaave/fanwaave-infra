@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "contractVersion": 1,
+  "linearIssue": "DEN-3040",
+  "owner": "fanwaave/fanwaave-infra",
+  "schema": "fanwaave",
+  "targets": ["postgresql", "neon", "supabase"],
+  "source": {
+    "repository": "fanwaave/fanwaave-lib-core",
+    "revision": "acbcf0644f9bc1eeb1370ccc792c8eb83c4ddeb9",
+    "desiredState": "embedding-contract/sql/postgres/desired.sql",
+    "extensionBootstrap": "embedding-contract/sql/postgres/preflight.sql",
+    "dataReconciliation": "embedding-contract/sql/postgres/reconcile-index.sql",
+    "supabaseAdapter": "embedding-contract/sql/supabase/private-adapter.sql",
+    "supabaseVerification": "embedding-contract/sql/supabase/verify-private.sql"
+  },
+  "runtimeMirror": {
+    "repository": "fanwaave/fanwaave-orm-core",
+    "revision": "7e79a60e5c15c6cfea09782bf142bb65dd6afb99",
+    "sourceLock": "embedding-contract/source-lock.json"
+  },
+  "migrationEngine": {
+    "repository": "declarative-migrations/declarative-postgres-migrate.rs",
+    "minimumRevision": "2be157f28a9b922b51860dd99e2b205c061c62cc",
+    "requiredCapability": "extension schema introspection and convergence"
+  },
+  "storage": {
+    "exact": {
+      "sqlType": "extensions.vector(4100)",
+      "indexed": false
+    },
+    "candidate": {
+      "sqlType": "extensions.halfvec(4000)",
+      "index": "HNSW",
+      "operatorClass": "halfvec_cosine_ops"
+    },
+    "ranking": "candidate generation followed by exact 4100-value reranking"
+  },
+  "policy": {
+    "runtimeMayApplyMigrations": false,
+    "reviewedPlanChecksumRequired": true,
+    "supabaseDataApiExposure": false,
+    "extensionVersionsPinned": false
+  }
+}
