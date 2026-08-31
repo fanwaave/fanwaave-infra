@@ -16,7 +16,7 @@
   },
   "runtimeMirror": {
     "repository": "fanwaave/fanwaave-orm-core",
-    "revision": "7e79a60e5c15c6cfea09782bf142bb65dd6afb99",
+    "revision": "b44c41fb126c845897ec98fe6f7dfce006fd6f3a",
     "sourceLock": "embedding-contract/source-lock.json"
   },
   "migrationEngine": {
