@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "githubOrg": "fanwaave",
+  "expectedState": "paused",
+  "mapping": {
+    "neonOrg": "org-tiny-glitter-84421543",
+    "supabaseOrg": "tcwqbgydkhmdxragjpoz",
+    "cloudflareDomain": null,
+    "slackChannel": "C0BN3FMEJGL",
+    "gcpProject": "fanwaave",
+    "linearProject": "d765e227-5726-42c8-8643-a8bd9e5a9a8c"
+  },
+  "areas": [
+    {
+      "role": "canonical",
+      "vpcId": null,
+      "region": null,
+      "sourceSecurityGroup": null,
+      "workloadIdentity": null,
+      "credentialRef": null
+    },
+    {
+      "role": "auth",
+      "vpcId": null,
+      "region": null,
+      "sourceSecurityGroup": null,
+      "workloadIdentity": null,
+      "credentialRef": null
+    },
+    {
+      "role": "admin",
+      "vpcId": null,
+      "region": null,
+      "sourceSecurityGroup": null,
+      "workloadIdentity": null,
+      "credentialRef": null
+    }
+  ],
+  "projects": [
+    {
+      "provider": "neon",
+      "role": "canonical",
+      "projectId": "red-waterfall-08924016",
+      "region": "us-east-1",
+      "endpointIds": null
+    },
+    {
+      "provider": "neon",
+      "role": "auth",
+      "projectId": "blue-sound-47545169",
+      "region": "us-east-1",
+      "endpointIds": null
+    },
+    {
+      "provider": "neon",
+      "role": "admin",
+      "projectId": "bold-base-21574080",
+      "region": "us-east-1",
+      "endpointIds": null
+    },
+    {
+      "provider": "supabase",
+      "role": "canonical",
+      "projectId": "fxwtpghljveqwjiqzcjf",
+      "region": "us-east-2",
+      "endpointIds": null
+    },
+    {
+      "provider": "supabase",
+      "role": "auth",
+      "projectId": "dmpwxqyeyvnrqjueoowh",
+      "region": "us-east-2",
+      "endpointIds": null
+    },
+    {
+      "provider": "supabase",
+      "role": "admin",
+      "projectId": null,
+      "region": null,
+      "endpointIds": null
+    }
+  ]
+}
