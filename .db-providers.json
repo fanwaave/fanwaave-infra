@@ -1,0 +1,65 @@
+{
+  "$schema": "./config/db-providers.schema.json",
+  "schemaVersion": "1.0.0",
+  "githubOrg": "fanwaave",
+  "productionBranch": "main",
+  "contractSource": {
+    "repository": "fanwaave/fanwaave-lib-core",
+    "path": "migrations",
+    "zedPackage": "fanwaave/fanwaave-lib-core"
+  },
+  "supabase": {
+    "orgRef": "zmkmcdyrryxxhleytdho",
+    "orgDisplayName": "oresoftware",
+    "githubApp": {
+      "supabaseChangesOnly": true,
+      "deployToProduction": false,
+      "automaticBranching": true
+    },
+    "projects": [
+      {
+        "ref": "pendingcanonicalproj",
+        "slug": "canonical",
+        "role": "canonical",
+        "workingDirectory": "supabase/pendingcanonicalproj",
+        "state": "planned"
+      },
+      {
+        "ref": "szzbuljocwprjhaqnbvb",
+        "slug": "auth",
+        "role": "auth",
+        "authParent": "child",
+        "workingDirectory": "supabase/szzbuljocwprjhaqnbvb",
+        "state": "planned",
+        "region": "us-east-1"
+      }
+    ]
+  },
+  "neon": {
+    "orgId": "org-pending-provider-readback",
+    "projects": [
+      {
+        "id": "fanwaave-prod",
+        "slug": "prod",
+        "directory": "neon/fanwaave-prod",
+        "region": "aws-us-east-2",
+        "productionBranch": "main",
+        "databases": [
+          {
+            "name": "canonical",
+            "role": "canonical",
+            "owner": "fanwaave_app"
+          },
+          {
+            "name": "auth",
+            "role": "auth",
+            "authParent": "child",
+            "owner": "fanwaave_auth"
+          }
+        ],
+        "previewBranches": true,
+        "state": "planned"
+      }
+    ]
+  }
+}
