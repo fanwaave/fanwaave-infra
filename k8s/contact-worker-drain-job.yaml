@@ -1,0 +1,97 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fanwaave-contact-worker-drain
+  namespace: fanwaave
+  labels:
+    app: fanwaave-contact-worker
+    fanwaave.io/workload: contact-drain
+  annotations:
+    fanwaave.io/ephemeral: "true"
+    fanwaave.io/purpose: "bounded outbound email/SMS queue drain"
+spec:
+  backoffLimit: 1
+  activeDeadlineSeconds: 1200
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      labels:
+        app: fanwaave-contact-worker
+        fanwaave.io/workload: contact-drain
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 120
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: contact-worker
+          image: ghcr.io/fanwaave/fanwaave-contact-worker.rs:main
+          imagePullPolicy: IfNotPresent
+          args:
+            - --drain
+            - --max-jobs=10000
+            - --batch-size=250
+            - --concurrency=64
+            - --email-rate-per-second=20
+            - --sms-rate-per-second=5
+            - --idle-exit-ms=2000
+            - --lease-seconds=90
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: fanwaave-contact-runtime
+                  key: database-url
+            - name: SENDGRID_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: fanwaave-contact-runtime
+                  key: sendgrid-api-key
+                  optional: true
+            - name: EMAIL_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: fanwaave-contact-runtime
+                  key: email-from
+                  optional: true
+            - name: TWILIO_ACCOUNT_SID
+              valueFrom:
+                secretKeyRef:
+                  name: fanwaave-contact-runtime
+                  key: twilio-account-sid
+                  optional: true
+            - name: TWILIO_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: fanwaave-contact-runtime
+                  key: twilio-auth-token
+                  optional: true
+            - name: TWILIO_FROM_NUMBER
+              valueFrom:
+                secretKeyRef:
+                  name: fanwaave-contact-runtime
+                  key: twilio-from-number
+                  optional: true
+            - name: NATS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: fanwaave-contact-runtime
+                  key: nats-url
+                  optional: true
+            - name: RUST_LOG
+              value: fanwaave_contact_worker=info
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: "2"
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
