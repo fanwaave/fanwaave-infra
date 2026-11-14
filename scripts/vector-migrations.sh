@@ -13,6 +13,13 @@ fi
 : "${VECTOR_DB_PROFILE:?set VECTOR_DB_PROFILE to postgresql, neon, or supabase}"
 : "${VECTOR_MIGRATION_ACTION:?set VECTOR_MIGRATION_ACTION to plan, verify, or apply}"
 
+# The shadow must never be the actual migration target. Do not echo URLs:
+# they can embed passwords or access tokens.
+if [ "$TARGET_DATABASE_URL" = "$SHADOW_DATABASE_URL" ]; then
+  echo "target and shadow database URLs must be distinct" >&2
+  exit 64
+fi
+
 DPM_BIN=${DPM_BIN:-dpm}
 PSQL_BIN=${PSQL_BIN:-psql}
 SCRIPT_DIR=$(unset CDPATH; cd -- "$(dirname -- "$0")" && pwd)
